@@ -1,72 +1,33 @@
-const MongoClient = require("mongodb").MongoClient;
-const assert = require("assert");
+const mongoose = require("mongoose");
 
-// Connection URL
-const URL = "mongodb://localhost:27017";
+mongoose.connect("mongodb://localhost:27017/fruitsDB", {useNewUrlParser: true });
+// create ne schema
+// const fruitSchema = new mongoose.Schema({
+//     name: String,
+//     rating: Number,
+//     review: String
+// });
 
-// database name
-const dbName = "fruitsDB";
+// const Fruit = mongoose.model("Fruit", fruitSchema);
 
-// Create new instance of Mongoclient
+// const fruit = new Fruit({
+//     name:"apple",
+//     rating:7,
+//     review: "solid fruit"
+// });
 
-const client = new MongoClient(URL);
+// fruit.save();
 
-//USe connection method to connect to the server
-client.connect(function(err){
-    assert.equal(null, err);
-    console.log("Connected successfully to the server");
-
-    const db = client.db(dbName);
-
-    findDocuments(db, function(){
-        client.close();
-    })
-
-    // insertDocuments(db, function(){
-    //     client.close();
-    // });
-
+const peopleSchema = new mongoose.Schema({
+    name: String,
+    age: Number
 });
 
-//inserting document into the database
+const Person = mongoose.model("Person", peopleSchema);
 
-const insertDocuments = function(db, callback) {
-    // get the documents collection
-    const collection = db.collection("fruits");
-    //insert some documents
-    collection.insertMany([
-        {
-            name:"Apple",
-            score:8,
-            review:"Great fruit"
-    },
-        {
-            name:"Orange",
-            score:6,
-            review:"Kinda sour"
-        },
-        {name: "Banana",
-        score:9,
-        review:"Great fantastic healthy stuff"
-    }
-    ], function(err, result){
-        assert.equal(err,null);
-        assert.equal(3, result.result.n);
-        assert.equal(3, result.ops.length);
-        console.log("Inserted 3 documents into the collection");
-        callback(result);
-    });
-}
+const person = new Person({
+    name:"John",
+    age:34
+});
 
-
-const findDocuments = function(db, callback){
-    //get the documents collection
-    const collection = db.collection("fruits");
-    //find some documents
-    collection.find({}).toArray(function(err, fruits){
-        assert.equal(err, null);
-        console.log("Found the following records");
-        console.log(fruits);
-        callback(fruits);
-    });
-}
+person.save();
