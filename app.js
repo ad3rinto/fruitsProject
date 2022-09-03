@@ -5,7 +5,7 @@ const assert = require("assert");
 const URL = "mongodb://localhost:27017";
 
 // database name
-const dbName = "myproject";
+const dbName = "fruitsDB";
 
 // Create new instance of Mongoclient
 
@@ -18,6 +18,38 @@ client.connect(function(err){
 
     const db = client.db(dbName);
 
-    client.close();
+    insertDocuments(db, function(){
+        client.close();
+    });
 
 });
+
+//inserting document into the database
+
+const insertDocuments = function(db, callback) {
+    // get the documents collection
+    const collection = db.collection("fruits");
+    //insert some documents
+    collection.insertMany([
+        {
+            name:"Apple",
+            score:8,
+            review:"Great fruit"
+    },
+        {
+            name:"Orange",
+            score:6,
+            review:"Kinda sour"
+        },
+        {name: "Banana",
+        score:9,
+        review:"Great fantastic healthy stuff"
+    }
+    ], function(err, result){
+        assert.equal(err,null);
+        assert.equal(3, result.result.n);
+        assert.equal(3, result.ops.length);
+        console.log("Inserted 3 documents into the collection");
+        callback(result);
+    });
+}
