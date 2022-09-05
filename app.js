@@ -23,7 +23,7 @@ const fruit = new Fruit({
     review: "solid fruit"
 });
 
-fruit.save();
+// fruit.save();
 
 // Create schema for people and add person document to database
 
@@ -40,3 +40,22 @@ const person = new Person({
 });
 
 // person.save();
+
+Fruit.find(function(err, fruits){
+    if(err){
+        console.log(err);
+    } else {
+        mongoose.connection.close();
+        fruits.forEach(function(fruit){
+            console.log(fruit.name);
+        });
+    }
+});
+
+Fruit.updateOne({ _id: "631626255e5d657c4a436165" },{name: "Mango"}, function(err){
+    if(err){
+        console.log(err)
+    } else {
+        console.log("updated successfully")
+    }
+})
