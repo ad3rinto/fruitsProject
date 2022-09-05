@@ -2,21 +2,25 @@ const mongoose = require("mongoose");
 
 mongoose.connect("mongodb://localhost:27017/fruitsDB", {useNewUrlParser: true });
 // create ne schema
-// const fruitSchema = new mongoose.Schema({
-//     name: String,
-//     rating: Number,
-//     review: String
-// });
+const fruitSchema = new mongoose.Schema({
+    name: String,
+    rating:{
+        type: Number,
+        min:1,
+        max:5
+    },
+    review: String
+});
 
-// const Fruit = mongoose.model("Fruit", fruitSchema);
+const Fruit = mongoose.model("Fruit", fruitSchema);
 
-// const fruit = new Fruit({
-//     name:"apple",
-//     rating:7,
-//     review: "solid fruit"
-// });
+const fruit = new Fruit({
+    // name:"mango",
+    rating:5,
+    review: "solid fruit"
+});
 
-// fruit.save();
+fruit.save();
 
 // Create schema for people and add person document to database
 
@@ -32,4 +36,4 @@ const person = new Person({
     age:34
 });
 
-person.save();
+// person.save();
