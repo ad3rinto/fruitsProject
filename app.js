@@ -18,6 +18,8 @@ mongoose.connect("mongodb://localhost:27017/fruitsDB", {useNewUrlParser: true })
 
 // fruit.save();
 
+// Create schema for people and add person document to database
+
 const peopleSchema = new mongoose.Schema({
     name: String,
     age: Number
